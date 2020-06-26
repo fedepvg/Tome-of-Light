@@ -231,22 +231,53 @@ void ATomeOfLightCharacter::FireSumerianStorm()
 			UWorld* const World = GetWorld();
 			if (World != NULL)
 			{
+				const FRotator CameraRotation = FirstPersonCameraComponent->GetComponentRotation();
+				const FVector CameraPosition = FirstPersonCameraComponent->GetComponentLocation();
+				const FVector CameraTarget = CameraPosition + CameraRotation.Vector() * SumerianStormBulletRange;
+				
 				//Set Spawn Collision Handling Override
 				FActorSpawnParameters ActorSpawnParams;
 				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
-				for (int i = 0; i < SumerianStormProjectileCount; i++)
-				{
-					FRotator SpawnRotation = FirstPersonCameraComponent->GetComponentRotation();
-					FVector RotationSpread = FVector(0.f, FMath::RandRange(-SumerianStormSpread, SumerianStormSpread), FMath::RandRange(-SumerianStormSpread, SumerianStormSpread));
-					RotationSpread = SpawnRotation.RotateVector(RotationSpread);
+				//for (int i = 0; i < SumerianStormProjectileCount; i++)
+				//{
+				//	FRotator SpawnRotation = FirstPersonCameraComponent->GetComponentRotation();
+				//	FVector RotationSpread = FVector(0.f, FMath::RandRange(-SumerianStormSpread, SumerianStormSpread), FMath::RandRange(-SumerianStormSpread, SumerianStormSpread));
+				//	RotationSpread = SpawnRotation.RotateVector(RotationSpread);
+				//
+				//	SpawnRotation = RotationSpread.ToOrientationRotator();
+				//	
+				//	// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
+				//	const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
+				//	
+				//	// spawn the projectile at the muzzle
+				//	World->SpawnActor<ATomeOfLightProjectile>(SumerianStormProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+				//}
 
-					SpawnRotation = RotationSpread.ToOrientationRotator();
+				//NEW
+
+				float AngleBetweenBullets = 360 / SumerianStormProjectileCount;
+
+				float Y, Z;
+
+
+				for (float Angle = 0; Angle < 360; Angle += AngleBetweenBullets)
+				{
+					Y = FMath::Cos(Angle) * FMath::RandRange(-SumerianStormSpread,SumerianStormSpread);
+					Z = FMath::Sin(Angle) * FMath::RandRange(-SumerianStormSpread, SumerianStormSpread);
+
+					FVector Result(0.f, Y, Z);
+
+					Result = FirstPersonCameraComponent->GetComponentTransform().Rotator().RotateVector(Result);
+
+					const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + CameraRotation.RotateVector(GunOffset);
+
+					FVector Dest = Result + CameraTarget;
+
+					FVector RotVector = Dest - CameraPosition;
+
+					FRotator SpawnRotation = RotVector.Rotation();
 					
-					// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-					const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
-					
-					// spawn the projectile at the muzzle
 					World->SpawnActor<ATomeOfLightProjectile>(SumerianStormProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 				}
 			}

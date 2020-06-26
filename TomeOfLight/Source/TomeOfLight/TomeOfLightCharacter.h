@@ -166,6 +166,9 @@ protected:
 
 	FTimerHandle RomanFireballTimerHandle;
 	FTimerHandle SumerianStormTimerHandle;
+
+	UPROPERTY(EditDefaultsOnly)
+	float SumerianStormBulletRange;
 	
 protected:
 	// APawn interface
