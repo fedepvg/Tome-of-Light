@@ -64,10 +64,19 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	FVector GunOffset;
 
+	/** Roman Fireball firerate */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Tomes)
+	float RomanFireballFirerate;
+
 	/** Projectile class to spawn */
 	UPROPERTY(EditDefaultsOnly, Category=Projectile)
 	TSubclassOf<class ATomeOfLightProjectile> ProjectileClass;
 
+	/** Fireball class to spawn */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Tomes)
+	TSubclassOf<class ATomeOfLightProjectile> RomanFireballClass;
+
+	
 	/** Sound to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	class USoundBase* FireSound;
@@ -84,6 +93,9 @@ protected:
 	
 	/** Fires a projectile. */
 	void OnFire();
+
+	/** Fires a Fireball */
+	void FireRomanFireball();
 
 	/** Resets HMD orientation and position in VR. */
 	void OnResetVR();
@@ -118,6 +130,8 @@ protected:
 	void EndTouch(const ETouchIndex::Type FingerIndex, const FVector Location);
 	void TouchUpdate(const ETouchIndex::Type FingerIndex, const FVector Location);
 	TouchData	TouchItem;
+
+	FTimerHandle RomanFireballTimerHandle;
 	
 protected:
 	// APawn interface
