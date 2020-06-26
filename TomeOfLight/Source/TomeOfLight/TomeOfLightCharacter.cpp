@@ -12,6 +12,7 @@
 #include "MotionControllerComponent.h"
 #include "TimerManager.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
+#include "HealthComponent.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -83,6 +84,8 @@ ATomeOfLightCharacter::ATomeOfLightCharacter()
 
 	// Uncomment the following line to turn motion controllers on by default:
 	//bUsingMotionControllers = true;
+
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 }
 
 void ATomeOfLightCharacter::BeginPlay()
@@ -323,6 +326,11 @@ void ATomeOfLightCharacter::EndTouch(const ETouchIndex::Type FingerIndex, const 
 		return;
 	}
 	TouchItem.bIsPressed = false;
+}
+
+UHealthComponent* ATomeOfLightCharacter::GetHealthComponent() const
+{
+	return HealthComponent;
 }
 
 //Commenting this section out to be consistent with FPS BP template.

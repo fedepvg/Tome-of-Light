@@ -4,12 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Damageable.h"
 #include "TomeOfLightCharacter.generated.h"
 
 class UInputComponent;
 
 UCLASS(config=Game)
-class ATomeOfLightCharacter : public ACharacter
+class ATomeOfLightCharacter : public ACharacter, public IDamageable
 {
 	GENERATED_BODY()
 
@@ -44,6 +45,8 @@ class ATomeOfLightCharacter : public ACharacter
 	/** Motion controller (left hand) */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UMotionControllerComponent* L_MotionController;
+
+	class UHealthComponent* GetHealthComponent() const override;
 
 public:
 	ATomeOfLightCharacter();
@@ -169,6 +172,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	float SumerianStormBulletRange;
+
+	UPROPERTY(EditAnywhere)
+	UHealthComponent* HealthComponent;
 	
 protected:
 	// APawn interface

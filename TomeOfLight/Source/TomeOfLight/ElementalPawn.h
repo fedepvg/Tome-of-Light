@@ -25,6 +25,9 @@ protected:
 	UFUNCTION()
 	void OnCollision(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
+	UPROPERTY(EditDefaultsOnly)
+	float Damage;
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
