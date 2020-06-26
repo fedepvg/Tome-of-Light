@@ -16,11 +16,6 @@ public:
 	AElementalPawn();
 
 protected:
-	//UPROPERTY(EditDefaultsOnly)
-	//class UStaticMeshComponent* Mesh;
-
-	UPROPERTY(EditDefaultsOnly)
-	float Speed;
 
 	FVector MovementVector;
 	
