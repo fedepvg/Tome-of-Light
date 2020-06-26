@@ -19,7 +19,7 @@ void AEnemySpawner::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetWorld()->GetTimerManager().SetTimer(SpawnTimer, this, &ThisClass::SpawnEnemy, .5f, true);
+	GetWorld()->GetTimerManager().SetTimer(SpawnTimer, this, &ThisClass::SpawnEnemy, BaseSpawnRate, true);
 }
 
 void AEnemySpawner::SpawnEnemy()

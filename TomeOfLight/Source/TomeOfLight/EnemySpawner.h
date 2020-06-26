@@ -18,6 +18,9 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere)
+	float BaseSpawnRate;
+	
+	UPROPERTY(EditAnywhere)
 	AActor* PlayerReference;
 
 	UPROPERTY(EditDefaultsOnly)

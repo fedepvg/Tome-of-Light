@@ -11,18 +11,18 @@
 // Sets default values
 AElementalPawn::AElementalPawn()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	//Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	//Mesh->OnComponentHit.AddDynamic(this, &ThisClass::OnCollision);
 	GetCollisionComponent()->OnComponentHit.AddDynamic(this, &ThisClass::OnCollision);
+	MovementComponent->SetComponentTickEnabled(true);
 }
 
 // Called when the game starts or when spawned
 void AElementalPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	FRotator PlayerRot = UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), MovementVector);
 }
 
 void AElementalPawn::OnCollision(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
@@ -33,7 +33,6 @@ void AElementalPawn::OnCollision(UPrimitiveComponent* HitComponent, AActor* Othe
 	{
 		FDamageEvent DamageEvent;
 		Player->TakeDamage(100, DamageEvent, GetController(), this);
-		return;
 	}
 	Destroy();
 }
