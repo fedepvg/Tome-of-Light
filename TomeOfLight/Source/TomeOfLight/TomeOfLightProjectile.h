@@ -11,14 +11,16 @@ class ATomeOfLightProjectile : public AActor
 {
 	GENERATED_BODY()
 
-	/** Sphere collision component */
-	UPROPERTY(VisibleDefaultsOnly, Category=Projectile)
-	class USphereComponent* CollisionComp;
-
 	/** Projectile movement component */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	class UProjectileMovementComponent* ProjectileMovement;
-
+	
+protected:
+	
+	/** Sphere collision component */
+	UPROPERTY(VisibleDefaultsOnly, Category=Projectile)
+	class USphereComponent* CollisionComp;
+	
 public:
 	ATomeOfLightProjectile();
 
