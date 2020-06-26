@@ -104,8 +104,6 @@ void ATomeOfLightCharacter::BeginPlay()
 		VR_Gun->SetHiddenInGame(true, true);
 		Mesh1P->SetHiddenInGame(false, true);
 	}
-
-	GetWorld()->GetTimerManager().SetTimer(RomanFireballTimerHandle, this, &ThisClass::FireRomanFireball, RomanFireballFirerate, true);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -119,10 +117,15 @@ void ATomeOfLightCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	// Bind jump events
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-
+	
 	// Bind fire event
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ATomeOfLightCharacter::OnFire);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ATomeOfLightCharacter::BeginRomanFireball);
+	PlayerInputComponent->BindAction("Fire", IE_Released, this, &ATomeOfLightCharacter::StopRomanFireball);
 
+	PlayerInputComponent->BindAction("SumerianStorm", IE_Pressed, this, &ATomeOfLightCharacter::BeginSumerianStorm);
+	PlayerInputComponent->BindAction("SumerianStorm", IE_Released, this, &ATomeOfLightCharacter::StopSumerianStorm);
+
+	
 	// Enable touchscreen input
 	EnableTouchscreenMovement(PlayerInputComponent);
 
@@ -208,6 +211,57 @@ void ATomeOfLightCharacter::FireRomanFireball()
 				World->SpawnActor<ATomeOfLightProjectile>(RomanFireballClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 		}
 	}
+}
+
+void ATomeOfLightCharacter::BeginRomanFireball()
+{
+	FireRomanFireball();
+	GetWorld()->GetTimerManager().SetTimer(RomanFireballTimerHandle, this, &ThisClass::FireRomanFireball, RomanFireballFirerate, true);
+}
+
+void ATomeOfLightCharacter::StopRomanFireball()
+{
+	GetWorld()->GetTimerManager().ClearTimer(RomanFireballTimerHandle);
+}
+
+void ATomeOfLightCharacter::FireSumerianStorm()
+{
+		if (SumerianStormProjectileClass != NULL)
+		{
+			UWorld* const World = GetWorld();
+			if (World != NULL)
+			{
+				//Set Spawn Collision Handling Override
+				FActorSpawnParameters ActorSpawnParams;
+				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+
+				for (int i = 0; i < SumerianStormProjectileCount; i++)
+				{
+					FRotator SpawnRotation = FirstPersonCameraComponent->GetComponentRotation();
+					FVector RotationSpread = FVector(0.f, FMath::RandRange(-SumerianStormSpread, SumerianStormSpread), FMath::RandRange(-SumerianStormSpread, SumerianStormSpread));
+					RotationSpread = SpawnRotation.RotateVector(RotationSpread);
+
+					SpawnRotation = RotationSpread.ToOrientationRotator();
+					
+					// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
+					const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
+					
+					// spawn the projectile at the muzzle
+					World->SpawnActor<ATomeOfLightProjectile>(SumerianStormProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+				}
+			}
+		}
+}
+
+void ATomeOfLightCharacter::BeginSumerianStorm()
+{
+	FireSumerianStorm();
+	GetWorld()->GetTimerManager().SetTimer(SumerianStormTimerHandle, this, &ThisClass::FireSumerianStorm, SumerianStormFirerate, true);
+}
+
+void ATomeOfLightCharacter::StopSumerianStorm()
+{
+	GetWorld()->GetTimerManager().ClearTimer(SumerianStormTimerHandle);
 }
 
 void ATomeOfLightCharacter::OnResetVR()

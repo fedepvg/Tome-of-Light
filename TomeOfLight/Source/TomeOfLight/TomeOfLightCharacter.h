@@ -68,6 +68,21 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Tomes)
 	float RomanFireballFirerate;
 
+	/** Sumerian Storm Firerate */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Tomes)
+	float SumerianStormFirerate;
+
+	/** Sumerian Storm projectile spread */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Tomes)
+	float SumerianStormSpread;
+
+	/** Sumerian Storm projectile ammount */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Tomes)
+	int SumerianStormProjectileCount;
+
+	/** if true, Sumerian Storm is ready to fire*/
+	bool IsSumerianStormReady;
+	
 	/** Projectile class to spawn */
 	UPROPERTY(EditDefaultsOnly, Category=Projectile)
 	TSubclassOf<class ATomeOfLightProjectile> ProjectileClass;
@@ -76,6 +91,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Tomes)
 	TSubclassOf<class ATomeOfLightProjectile> RomanFireballClass;
 
+	/** Fireball class to spawn */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Tomes)
+	TSubclassOf<class ATomeOfLightProjectile> SumerianStormProjectileClass;
 	
 	/** Sound to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
@@ -93,10 +111,25 @@ protected:
 	
 	/** Fires a projectile. */
 	void OnFire();
-
+	
 	/** Fires a Fireball */
 	void FireRomanFireball();
+	
+	/** Begin firing Roman Fireball*/
+	void BeginRomanFireball();
 
+	/** Stop firing Roman Fireball */
+	void StopRomanFireball();
+
+	/** Fire a volley of Sumerian Storm Projectiles */
+	void FireSumerianStorm();
+
+	/** Begin firing Sumerian Storm */
+	void BeginSumerianStorm();
+
+	/** Stop firing Sumerian Storm */
+	void StopSumerianStorm();
+	
 	/** Resets HMD orientation and position in VR. */
 	void OnResetVR();
 
@@ -132,6 +165,7 @@ protected:
 	TouchData	TouchItem;
 
 	FTimerHandle RomanFireballTimerHandle;
+	FTimerHandle SumerianStormTimerHandle;
 	
 protected:
 	// APawn interface
