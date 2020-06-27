@@ -107,6 +107,12 @@ void ATomeOfLightCharacter::BeginPlay()
 		VR_Gun->SetHiddenInGame(true, true);
 		Mesh1P->SetHiddenInGame(false, true);
 	}
+
+	APlayerController* PC = Cast<APlayerController>(GetController());
+	if (PC != nullptr)
+	{
+		PC->bShowMouseCursor = false;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
