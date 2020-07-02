@@ -16,9 +16,9 @@ public:
 	UHealthComponent();
 
 	UPROPERTY(EditAnywhere)
-	float Health;
+	int Health;
 
-	virtual void ApplyDamage(float Damage);
+	virtual void ApplyDamage(int Damage);
 	
 protected:
 	// Called when the game starts

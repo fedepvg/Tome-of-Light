@@ -18,23 +18,30 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere)
-	float BaseSpawnRate;
+	float ElementalSpawnRate;
+
+	UPROPERTY(EditAnywhere)
+	float SeekerSpawnRate;
 	
 	UPROPERTY(EditAnywhere)
 	AActor* PlayerReference;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AActor> EnemyClass;
+	TSubclassOf<AActor> ElementalClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AActor> SeekerClass;
 
 	UPROPERTY(EditAnywhere)
 	TArray<class ATriggerBox*> SpawnAreas;
 
-	FTimerHandle SpawnTimer;
+	FTimerHandle ElementalSpawnTimer;
+	FTimerHandle SeekerSpawnTimer;
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	void SpawnEnemy();
+	
+	void SpawnEnemy(TSubclassOf<AActor> EnemyClass);
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

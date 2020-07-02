@@ -21,6 +21,7 @@ AElementalPawn::AElementalPawn()
 void AElementalPawn::BeginPlay()
 {
 	Super::BeginPlay();
+	
 }
 
 void AElementalPawn::OnCollision(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
@@ -30,7 +31,6 @@ void AElementalPawn::OnCollision(UPrimitiveComponent* HitComponent, AActor* Othe
 	if (Player != nullptr)
 	{
 		Player->OnTakeDamage(Damage);
-		
 	}
 	Destroy();
 }
@@ -39,8 +39,10 @@ void AElementalPawn::OnCollision(UPrimitiveComponent* HitComponent, AActor* Othe
 void AElementalPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if(MovementComponent)
+	if (MovementComponent)
+	{
 		MovementComponent->AddInputVector(MovementVector.IsNormalized() ? MovementVector : MovementVector.GetSafeNormal());
+	}
 }
 
 // Called to bind functionality to input
@@ -48,4 +50,10 @@ void AElementalPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void AElementalPawn::InitializaEnemy(AActor* CurrentPlayer)
+{
+	PlayerActor = CurrentPlayer;
+	MovementVector = PlayerActor->GetActorLocation() - GetActorLocation();
 }

@@ -17,6 +17,7 @@ public:
 
 protected:
 
+	AActor* PlayerActor;
 	FVector MovementVector;
 	
 	// Called when the game starts or when spawned
@@ -26,7 +27,7 @@ protected:
 	void OnCollision(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 	UPROPERTY(EditDefaultsOnly)
-	float Damage;
+	int Damage;
 	
 public:	
 	// Called every frame
@@ -35,5 +36,5 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	FORCEINLINE void SetMovementVector(FVector NewMovementVector) { MovementVector = NewMovementVector; }
+	void InitializaEnemy(AActor* CurrentPlayer);
 };

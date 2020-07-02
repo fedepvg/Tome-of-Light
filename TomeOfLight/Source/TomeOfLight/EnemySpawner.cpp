@@ -19,21 +19,31 @@ void AEnemySpawner::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetWorld()->GetTimerManager().SetTimer(SpawnTimer, this, &ThisClass::SpawnEnemy, BaseSpawnRate, true);
+	FTimerDelegate ElementalSpawnDelegate;
+	ElementalSpawnDelegate.BindUObject(this, &ThisClass::SpawnEnemy, ElementalClass);
+	FTimerDelegate SeekerSpawnDelegate;
+	ElementalSpawnDelegate.BindUObject(this, &ThisClass::SpawnEnemy, SeekerClass);
+	
+	GetWorld()->GetTimerManager().SetTimer(ElementalSpawnTimer, ElementalSpawnDelegate,ElementalSpawnRate, true);
+	GetWorld()->GetTimerManager().SetTimer(SeekerSpawnTimer, SeekerSpawnDelegate, SeekerSpawnRate, true);
 }
 
-void AEnemySpawner::SpawnEnemy()
+void AEnemySpawner::SpawnEnemy(TSubclassOf<AActor> EnemyClass)
 {
-	int SpawnAreaIndex = FMath::RandRange(0, SpawnAreas.Max()-1);
-	FVector SpawnOrigin = SpawnAreas[SpawnAreaIndex]->GetCollisionComponent()->Bounds.Origin;
-	FVector SpawnExtent = SpawnAreas[SpawnAreaIndex]->GetCollisionComponent()->Bounds.BoxExtent;
-	FVector SpawnPoint = UKismetMathLibrary::RandomPointInBoundingBox(SpawnOrigin, SpawnExtent);
-
-	AActor* SpawnedActor = GetWorld()->SpawnActor(EnemyClass, &SpawnPoint);
-	AElementalPawn* Enemy = Cast<AElementalPawn>(SpawnedActor);
-	if(Enemy != nullptr)
+	if (EnemyClass != nullptr)
 	{
-		Enemy->SetMovementVector((PlayerReference->GetActorLocation() - SpawnPoint).GetSafeNormal());
+		int SpawnAreaIndex = FMath::RandRange(0, SpawnAreas.Max() - 1);
+		FVector SpawnOrigin = SpawnAreas[SpawnAreaIndex]->GetCollisionComponent()->Bounds.Origin;
+		FVector SpawnExtent = SpawnAreas[SpawnAreaIndex]->GetCollisionComponent()->Bounds.BoxExtent;
+		FVector SpawnPoint = UKismetMathLibrary::RandomPointInBoundingBox(SpawnOrigin, SpawnExtent);
+
+		AActor* SpawnedActor = GetWorld()->SpawnActor(EnemyClass, &SpawnPoint);
+		AElementalPawn* Enemy = Cast<AElementalPawn>(SpawnedActor);
+		if (Enemy != nullptr)
+		{
+			Enemy->InitializaEnemy(PlayerReference);
+		}
+
 	}
 }
 

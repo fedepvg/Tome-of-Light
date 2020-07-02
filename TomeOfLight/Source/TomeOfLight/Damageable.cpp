@@ -7,7 +7,7 @@
 
 // Add default functionality here for any IDamageable functions that are not pure virtual.
 
-void IDamageable::OnTakeDamage(float Damage)
+void IDamageable::OnTakeDamage(int Damage)
 {
 	UHealthComponent* HealthComponent = GetHealthComponent();
 	if (HealthComponent == nullptr)

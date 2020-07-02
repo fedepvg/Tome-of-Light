@@ -23,5 +23,5 @@ class TOMEOFLIGHT_API IDamageable
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	virtual class UHealthComponent* GetHealthComponent() const = 0;
-	virtual void OnTakeDamage(float Damage);
+	virtual void OnTakeDamage(int Damage);
 };

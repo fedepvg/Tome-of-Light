@@ -23,8 +23,8 @@ void UHealthComponent::BeginPlay()
 	
 }
 
-void UHealthComponent::ApplyDamage(float Damage)
+void UHealthComponent::ApplyDamage(int Damage)
 {
 	Health -= Damage;
-	UE_LOG(LogTemp, Log, TEXT("%f"), Health);
+	UE_LOG(LogTemp, Log, TEXT("%i"), Health);
 }
