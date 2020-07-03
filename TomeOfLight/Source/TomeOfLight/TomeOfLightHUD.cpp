@@ -38,9 +38,9 @@ void ATomeOfLightHUD::DrawHUD()
 void ATomeOfLightHUD::BeginPlay()
 {
 	Super::BeginPlay();
-
-	//ScoreWidget = CreateWidget<UScoreWidget>(Cast<APlayerController>(GetOwningPlayerController()), ScoreWidgetClass);
-	//ScoreWidget->AddToViewport();
+	APlayerController* PlayerController = Cast<APlayerController>(GetOwner());
+	ScoreWidget = CreateWidget<UScoreWidget>(PlayerController, ScoreWidgetClass);
+	ScoreWidget->AddToViewport();
 }
 
 void ATomeOfLightHUD::UpdateScore() const

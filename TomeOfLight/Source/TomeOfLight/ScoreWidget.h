@@ -14,7 +14,8 @@ class TOMEOFLIGHT_API UScoreWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), meta = (BindWidget))
+protected:
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UTextBlock* ScoreText;
 
 public:
