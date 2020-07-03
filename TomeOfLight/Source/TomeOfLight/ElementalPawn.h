@@ -28,6 +28,11 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	int Damage;
+
+
+	/** Score given to the player when the enemy dies */
+	UPROPERTY(EditAnywhere)
+	int AssignedScore;
 	
 public:	
 	// Called every frame

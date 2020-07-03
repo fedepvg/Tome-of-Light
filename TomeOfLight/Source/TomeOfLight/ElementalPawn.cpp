@@ -31,11 +31,13 @@ void AElementalPawn::OnCollision(UPrimitiveComponent* HitComponent, AActor* Othe
 	if (Player != nullptr)
 	{
 		Player->OnTakeDamage(Damage);
+		//Destroy();
 	}
 
-	AElementalPawn* HittedActor = Cast<AElementalPawn>(OtherActor);
-	if(HittedActor == nullptr)
+	if(OtherActor->ActorHasTag(FName("Player")) || OtherActor->ActorHasTag(FName("Geometry")) || OtherActor->ActorHasTag(FName("PlayerProjectile")))
+	{
 		Destroy();
+	}
 }
 
 // Called every frame
