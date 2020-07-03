@@ -45,7 +45,7 @@ void ATomeOfLightProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 			ATomeOfLightCharacter* Character = Cast<ATomeOfLightCharacter>(GetOwner());
 			if(Character != nullptr)
 			{
-				Character->OnEnemyKilled(50);
+				Character->OnEnemyKilled(Enemy->GetAssignedScore());
 			}
 			Enemy->Destroy();
 		}

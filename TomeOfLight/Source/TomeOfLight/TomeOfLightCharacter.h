@@ -180,6 +180,8 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	UHealthComponent* HealthComponent;
+
+	void Destroyed() override;
 	
 protected:
 	// APawn interface

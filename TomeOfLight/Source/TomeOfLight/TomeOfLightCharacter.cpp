@@ -124,6 +124,12 @@ void ATomeOfLightCharacter::BeginPlay()
 //////////////////////////////////////////////////////////////////////////
 // Input
 
+void ATomeOfLightCharacter::Destroyed()
+{
+	HealthComponent->Health = 0;
+	OnDamageRecived();
+}
+
 void ATomeOfLightCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// set up gameplay key bindings
