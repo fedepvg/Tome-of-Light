@@ -47,6 +47,7 @@ void ATomeOfLightProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 			{
 				Character->OnEnemyKilled(50);
 			}
+			Enemy->Destroy();
 		}
 		Destroy();
 	}

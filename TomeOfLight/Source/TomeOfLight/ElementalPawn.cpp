@@ -34,7 +34,7 @@ void AElementalPawn::OnCollision(UPrimitiveComponent* HitComponent, AActor* Othe
 		//Destroy();
 	}
 
-	if(OtherActor->ActorHasTag(FName("Player")) || OtherActor->ActorHasTag(FName("Geometry")) || OtherActor->ActorHasTag(FName("PlayerProjectile")))
+	if(OtherActor->ActorHasTag(FName("Player")) || OtherActor->ActorHasTag(FName("Geometry")))
 	{
 		Destroy();
 	}

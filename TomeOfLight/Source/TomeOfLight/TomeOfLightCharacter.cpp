@@ -237,7 +237,10 @@ void ATomeOfLightCharacter::FireRomanFireball()
 			// spawn the projectile at the muzzle
 			AActor* Projectile = World->SpawnActor<ATomeOfLightProjectile>(RomanFireballClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 
-			Projectile->SetOwner(this);
+			if (Projectile != nullptr)
+			{
+				Projectile->SetOwner(this);
+			}
 		}
 	}
 }
@@ -309,7 +312,10 @@ void ATomeOfLightCharacter::FireSumerianStorm()
 					
 					AActor* Projectile = World->SpawnActor<ATomeOfLightProjectile>(SumerianStormProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 
-					Projectile->SetOwner(this);
+					if (Projectile != nullptr)
+					{
+						Projectile->SetOwner(this);
+					}
 				}
 			}
 		}
