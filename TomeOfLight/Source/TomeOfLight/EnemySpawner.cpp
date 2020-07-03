@@ -22,7 +22,7 @@ void AEnemySpawner::BeginPlay()
 	FTimerDelegate ElementalSpawnDelegate;
 	ElementalSpawnDelegate.BindUObject(this, &ThisClass::SpawnEnemy, ElementalClass);
 	FTimerDelegate SeekerSpawnDelegate;
-	ElementalSpawnDelegate.BindUObject(this, &ThisClass::SpawnEnemy, SeekerClass);
+	SeekerSpawnDelegate.BindUObject(this, &ThisClass::SpawnEnemy, SeekerClass);
 	
 	GetWorld()->GetTimerManager().SetTimer(ElementalSpawnTimer, ElementalSpawnDelegate,ElementalSpawnRate, true);
 	GetWorld()->GetTimerManager().SetTimer(SeekerSpawnTimer, SeekerSpawnDelegate, SeekerSpawnRate, true);
