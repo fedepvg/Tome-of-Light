@@ -32,7 +32,10 @@ void AElementalPawn::OnCollision(UPrimitiveComponent* HitComponent, AActor* Othe
 	{
 		Player->OnTakeDamage(Damage);
 	}
-	Destroy();
+
+	AElementalPawn* HittedActor = Cast<AElementalPawn>(OtherActor);
+	if(HittedActor == nullptr)
+		Destroy();
 }
 
 // Called every frame
