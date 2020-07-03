@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
 #include "ScoreWidget.h"
+#include "LivesWidget.h"
 #include "TomeOfLightHUD.generated.h"
 
 UCLASS()
@@ -24,11 +25,18 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly)
 	UScoreWidget* ScoreWidget;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<ULivesWidget> LivesWidgetClass;
+
+	UPROPERTY(BlueprintReadOnly)
+	ULivesWidget* LivesWidget;
 	
 	void BeginPlay() override;
 	
 public:
 	
 	void UpdateScore() const;
+	void UpdateLives() const;
 };
 

@@ -194,6 +194,19 @@ void ATomeOfLightCharacter::OnDamageRecived()
 			}
 		}
 	}
+	else
+	{
+		ATOLPlayerController* TOLPlayerController = Cast<ATOLPlayerController>(GetController());
+
+		if (TOLPlayerController != nullptr)
+		{
+			ATomeOfLightHUD* TomeOfLightHUD = Cast<ATomeOfLightHUD>(TOLPlayerController->GetHUD());
+			if (TomeOfLightHUD != nullptr)
+			{
+				TomeOfLightHUD->UpdateLives();
+			}
+		}
+	}
 }
 
 void ATomeOfLightCharacter::OnFire()

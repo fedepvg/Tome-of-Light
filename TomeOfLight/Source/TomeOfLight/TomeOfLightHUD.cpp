@@ -41,6 +41,8 @@ void ATomeOfLightHUD::BeginPlay()
 	APlayerController* PlayerController = Cast<APlayerController>(GetOwner());
 	ScoreWidget = CreateWidget<UScoreWidget>(PlayerController, ScoreWidgetClass);
 	ScoreWidget->AddToViewport();
+	LivesWidget = CreateWidget<ULivesWidget>(PlayerController, LivesWidgetClass);
+	LivesWidget->AddToViewport();
 }
 
 void ATomeOfLightHUD::UpdateScore() const
@@ -51,4 +53,9 @@ void ATomeOfLightHUD::UpdateScore() const
 	{
 		ScoreWidget->UpdateScoreText(PlayerController->GetScore());
 	}
+}
+
+void ATomeOfLightHUD::UpdateLives() const
+{
+	LivesWidget->UpdateLives();
 }
