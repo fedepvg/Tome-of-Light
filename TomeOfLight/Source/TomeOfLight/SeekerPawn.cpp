@@ -5,21 +5,26 @@
 
 void ASeekerPawn::Tick(float DeltaTime)
 {
-	FVector vectorToPlayer = PlayerActor->GetActorLocation() - GetActorLocation();
-
-	float movementSize = MovementVector.Size();
-	
-	FVector upVector = FVector::CrossProduct(MovementVector, vectorToPlayer);
-
-	float angleBetweenVectors = FMath::Acos(FVector::DotProduct(MovementVector.GetSafeNormal(1.0f), vectorToPlayer.GetSafeNormal(1.0f)));
-
-	float turnSign = 1.f;
-	if (angleBetweenVectors <= 0.f)
-		turnSign = -1.f;
-	
-	MovementVector = MovementVector.RotateAngleAxis(DeltaTime * turnSign * MaximumTurnRate, upVector);
-	MovementVector.Normalize();
-	MovementVector = MovementVector * movementSize;
+	//FVector vectorToPlayer = PlayerActor->GetActorLocation() - GetActorLocation();
+	//
+	//float movementSize = MovementVector.Size();
+	//
+	//FVector upVector = FVector::CrossProduct(MovementVector, vectorToPlayer);
+	//
+	//float angleBetweenVectors = FMath::Acos(FVector::DotProduct(MovementVector.GetSafeNormal(1.0f), vectorToPlayer.GetSafeNormal(1.0f)));
+	//
+	//float turnSign = 1.f;
+	//if (angleBetweenVectors <= 0.f)
+	//	turnSign = -1.f;
+	//
+	//MovementVector = MovementVector.RotateAngleAxis(DeltaTime * turnSign * MaximumTurnRate, upVector);
+	//MovementVector.Normalize();
+	//MovementVector = MovementVector * movementSize;
 	//MovementVector = PlayerActor->GetActorLocation() - GetActorLocation();
+
+	FRotator Rot = (PlayerActor->GetActorLocation() - GetActorLocation()).Rotation();
+	SetActorRotation(FMath::QInterpTo(GetActorRotation().Quaternion(), Rot.Quaternion(), DeltaTime, MaximumTurnRate));
+	MovementVector = GetActorForwardVector();
+	
 	Super::Tick(DeltaTime);
 }
