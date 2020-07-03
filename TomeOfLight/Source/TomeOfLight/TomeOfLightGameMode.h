@@ -14,6 +14,3 @@ class ATomeOfLightGameMode : public AGameModeBase
 public:
 	ATomeOfLightGameMode();
 };
-
-
-
