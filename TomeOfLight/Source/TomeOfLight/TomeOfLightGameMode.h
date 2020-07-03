@@ -13,4 +13,9 @@ class ATomeOfLightGameMode : public AGameModeBase
 
 public:
 	ATomeOfLightGameMode();
+
+	void OnPlayerDeath(APlayerController* Player);
+protected:
+	UPROPERTY(EditDefaultsOnly)
+	TSoftObjectPtr<UWorld> GameOverLevel;
 };

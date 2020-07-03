@@ -4,6 +4,9 @@
 #include "TomeOfLightHUD.h"
 #include "TomeOfLightCharacter.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Kismet/GameplayStatics.h"
+#include "TOLGameInstance.h"
+#include "GameFramework/PlayerState.h"
 
 ATomeOfLightGameMode::ATomeOfLightGameMode()
 	: Super()
@@ -14,4 +17,15 @@ ATomeOfLightGameMode::ATomeOfLightGameMode()
 
 	// use our custom HUD class
 	HUDClass = ATomeOfLightHUD::StaticClass();
+}
+
+void ATomeOfLightGameMode::OnPlayerDeath(APlayerController* Player)
+{
+	UTOLGameInstance* GameInstance = Cast<UTOLGameInstance>(GetGameInstance());
+	if(GameInstance!=nullptr)
+	{
+		GameInstance->SetPreviousGameScore(Player->GetPlayerState<APlayerState>()->Score);
+	}
+
+	UGameplayStatics::OpenLevel(this, FName(*GameOverLevel.GetAssetName()));
 }

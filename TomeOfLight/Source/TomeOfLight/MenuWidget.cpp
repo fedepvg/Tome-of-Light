@@ -7,6 +7,7 @@
 #include "UMG/Public/Components/Button.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Engine/World.h"
 
 void UMenuWidget::NativeOnInitialized()
 {
@@ -15,7 +16,7 @@ void UMenuWidget::NativeOnInitialized()
 
 void UMenuWidget::PlayGame() const
 {
-	UGameplayStatics::OpenLevel(this, "FirstPersonExampleMap");
+	UGameplayStatics::OpenLevel(this, FName(*GameLevel.GetAssetName()));
 }
 
 void UMenuWidget::ExitGame()

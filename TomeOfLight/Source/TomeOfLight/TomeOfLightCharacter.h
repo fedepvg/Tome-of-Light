@@ -111,6 +111,9 @@ public:
 	uint32 bUsingMotionControllers : 1;
 
 	void OnEnemyKilled(int Score) const;
+
+	UFUNCTION()
+	void OnDamageRecived();
 	
 protected:
 	

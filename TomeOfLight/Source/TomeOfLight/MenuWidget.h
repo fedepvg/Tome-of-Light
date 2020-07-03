@@ -24,6 +24,9 @@ protected:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UButton* ExitButton;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSoftObjectPtr<class UWorld> GameLevel;
+
 	virtual void NativeOnInitialized() override;
 
 	UFUNCTION(BlueprintCallable)

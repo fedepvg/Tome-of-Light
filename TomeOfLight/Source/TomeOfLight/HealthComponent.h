@@ -6,6 +6,8 @@
 #include "Components/ActorComponent.h"
 #include "HealthComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDamageRecived);
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TOMEOFLIGHT_API UHealthComponent : public UActorComponent
 {
@@ -18,6 +20,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	int Health;
 
+	UPROPERTY()
+	FOnDamageRecived OnDamageRecived;
+	
 	virtual void ApplyDamage(int Damage);
 	
 protected:

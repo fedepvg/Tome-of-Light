@@ -16,6 +16,7 @@
 #include "TOLPlayerController.h"
 #include "ElementalPawn.h"
 #include "TomeOfLightHUD.h"
+#include "TomeOfLightGameMode.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -116,6 +117,8 @@ void ATomeOfLightCharacter::BeginPlay()
 	{
 		PC->bShowMouseCursor = false;
 	}
+
+	HealthComponent->OnDamageRecived.AddUniqueDynamic(this, &ThisClass::OnDamageRecived);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -167,6 +170,22 @@ void ATomeOfLightCharacter::OnEnemyKilled(int Score) const
 		if(TomeOfLightHUD != nullptr)
 		{
 			TomeOfLightHUD->UpdateScore();
+		}
+	}
+}
+
+void ATomeOfLightCharacter::OnDamageRecived()
+{
+	if (HealthComponent->Health <= 0)
+	{
+		ATomeOfLightGameMode* GameMode = Cast<ATomeOfLightGameMode>(GetWorld()->GetAuthGameMode());
+		if (GameMode != nullptr)
+		{
+			ATOLPlayerController* TOLPlayerController = Cast<ATOLPlayerController>(GetController());
+			if(TOLPlayerController != nullptr)
+			{
+				GameMode->OnPlayerDeath(TOLPlayerController);
+			}
 		}
 	}
 }
