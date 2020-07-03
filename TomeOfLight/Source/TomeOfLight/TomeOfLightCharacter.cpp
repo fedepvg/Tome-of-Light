@@ -286,6 +286,10 @@ void ATomeOfLightCharacter::FireRomanFireball()
 void ATomeOfLightCharacter::BeginRomanFireball()
 {
 	FireRomanFireball();
+	if (GetWorld()->GetTimerManager().GetTimerRate(SumerianStormTimerHandle) > 0)
+	{
+		GetWorld()->GetTimerManager().ClearTimer(SumerianStormTimerHandle);
+	}
 	GetWorld()->GetTimerManager().SetTimer(RomanFireballTimerHandle, this, &ThisClass::FireRomanFireball, RomanFireballFirerate, true);
 }
 
@@ -362,6 +366,10 @@ void ATomeOfLightCharacter::FireSumerianStorm()
 void ATomeOfLightCharacter::BeginSumerianStorm()
 {
 	FireSumerianStorm();
+	if(GetWorld()->GetTimerManager().GetTimerRate(RomanFireballTimerHandle) > 0)
+	{
+		GetWorld()->GetTimerManager().ClearTimer(RomanFireballTimerHandle);
+	}
 	GetWorld()->GetTimerManager().SetTimer(SumerianStormTimerHandle, this, &ThisClass::FireSumerianStorm, SumerianStormFirerate, true);
 }
 
