@@ -6,6 +6,7 @@
 #include "TomeOfLightCharacter.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "Components/SphereComponent.h"
+#include "SeekerPawn.h"
 #include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
@@ -34,7 +35,8 @@ void AElementalPawn::OnCollision(UPrimitiveComponent* HitComponent, AActor* Othe
 		//Destroy();
 	}
 
-	if(OtherActor->ActorHasTag(FName("Player")) || OtherActor->ActorHasTag(FName("Geometry")))
+	ASeekerPawn* CastToSeeker = Cast<ASeekerPawn>(this);
+	if(OtherActor->ActorHasTag(FName("Player")) ||( CastToSeeker == nullptr && OtherActor->ActorHasTag(FName("Geometry"))))
 	{
 		Destroy();
 	}
