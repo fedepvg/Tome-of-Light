@@ -42,4 +42,6 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void InitializaEnemy(AActor* CurrentPlayer);
+
+	int GetAssignedScore() { return AssignedScore; }
 };
