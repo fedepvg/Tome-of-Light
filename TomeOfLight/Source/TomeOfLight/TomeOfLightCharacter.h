@@ -110,6 +110,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	uint32 bUsingMotionControllers : 1;
 
+	void OnEnemyKilled(int Score) const;
+	
 protected:
 	
 	/** Fires a projectile. */

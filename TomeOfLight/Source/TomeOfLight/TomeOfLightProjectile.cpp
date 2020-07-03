@@ -3,6 +3,8 @@
 #include "TomeOfLightProjectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
+#include "ElementalPawn.h"
+#include "TomeOfLightCharacter.h"
 
 ATomeOfLightProjectile::ATomeOfLightProjectile() 
 {
@@ -37,7 +39,15 @@ void ATomeOfLightProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
 	{
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
-
+		AElementalPawn* Enemy = Cast<AElementalPawn>(OtherActor);
+		if(Enemy != nullptr)
+		{
+			ATomeOfLightCharacter* Character = Cast<ATomeOfLightCharacter>(GetOwner());
+			if(Character != nullptr)
+			{
+				Character->OnEnemyKilled(50);
+			}
+		}
 		Destroy();
 	}
 }

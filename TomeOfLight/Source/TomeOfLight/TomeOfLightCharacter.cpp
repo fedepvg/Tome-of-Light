@@ -13,6 +13,9 @@
 #include "TimerManager.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 #include "HealthComponent.h"
+#include "TOLPlayerController.h"
+#include "ElementalPawn.h"
+#include "TomeOfLightHUD.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -153,6 +156,21 @@ void ATomeOfLightCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	PlayerInputComponent->BindAxis("LookUpRate", this, &ATomeOfLightCharacter::LookUpAtRate);
 }
 
+void ATomeOfLightCharacter::OnEnemyKilled(int Score) const
+{
+	ATOLPlayerController* TOLPlayerController = Cast<ATOLPlayerController>(GetController());
+
+	if(TOLPlayerController != nullptr)
+	{
+		TOLPlayerController->SetScore(TOLPlayerController->GetScore() + Score);
+		ATomeOfLightHUD* TomeOfLightHUD = Cast<ATomeOfLightHUD>(TOLPlayerController->GetHUD());
+		if(TomeOfLightHUD != nullptr)
+		{
+			TomeOfLightHUD->UpdateScore();
+		}
+	}
+}
+
 void ATomeOfLightCharacter::OnFire()
 {
 	// try and fire a projectile
@@ -208,16 +226,18 @@ void ATomeOfLightCharacter::FireRomanFireball()
 		UWorld* const World = GetWorld();
 		if (World != NULL)
 		{
-				const FRotator SpawnRotation = GetControlRotation();
-				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-				const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
+			// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
+			const FRotator SpawnRotation = GetControlRotation();
+			const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
 
-				//Set Spawn Collision Handling Override
-				FActorSpawnParameters ActorSpawnParams;
-				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+			//Set Spawn Collision Handling Override
+			FActorSpawnParameters ActorSpawnParams;
+			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
-				// spawn the projectile at the muzzle
-				World->SpawnActor<ATomeOfLightProjectile>(RomanFireballClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+			// spawn the projectile at the muzzle
+			AActor* Projectile = World->SpawnActor<ATomeOfLightProjectile>(RomanFireballClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+
+			Projectile->SetOwner(this);
 		}
 	}
 }
@@ -287,7 +307,9 @@ void ATomeOfLightCharacter::FireSumerianStorm()
 
 					FRotator SpawnRotation = RotVector.Rotation();
 					
-					World->SpawnActor<ATomeOfLightProjectile>(SumerianStormProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+					AActor* Projectile = World->SpawnActor<ATomeOfLightProjectile>(SumerianStormProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+
+					Projectile->SetOwner(this);
 				}
 			}
 		}

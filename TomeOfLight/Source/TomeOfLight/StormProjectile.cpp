@@ -22,5 +22,5 @@ void AStormProjectile::Tick(float DeltaSeconds)
 	else
 		Destroy();
 	//CollisionComp->SetSphereRadius(CollisionComp->GetShapeScale() * SizeModifier * DeltaSeconds);
-	UE_LOG(LogTemp, Log, TEXT("scalex, %f"), CollisionComp->GetRelativeTransform().GetScale3D().X);
+	//UE_LOG(LogTemp, Log, TEXT("scalex, %f"), CollisionComp->GetRelativeTransform().GetScale3D().X);
 }

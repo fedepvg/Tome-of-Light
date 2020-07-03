@@ -26,5 +26,5 @@ void UHealthComponent::BeginPlay()
 void UHealthComponent::ApplyDamage(int Damage)
 {
 	Health -= Damage;
-	UE_LOG(LogTemp, Log, TEXT("%i"), Health);
+	//UE_LOG(LogTemp, Log, TEXT("%i"), Health);
 }

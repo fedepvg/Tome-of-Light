@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
+#include "ScoreWidget.h"
 #include "TomeOfLightHUD.generated.h"
 
 UCLASS()
@@ -17,9 +18,17 @@ public:
 	/** Primary draw call for the HUD */
 	virtual void DrawHUD() override;
 
-private:
-	/** Crosshair asset pointer */
-	class UTexture2D* CrosshairTex;
+protected:
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UScoreWidget> ScoreWidgetClass;
 
+	UPROPERTY(BlueprintReadOnly)
+	UScoreWidget* ScoreWidget;
+	
+	void BeginPlay() override;
+	
+public:
+	
+	void UpdateScore() const;
 };
 

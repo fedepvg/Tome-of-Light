@@ -6,6 +6,7 @@
 #include "TextureResource.h"
 #include "CanvasItem.h"
 #include "UObject/ConstructorHelpers.h"
+#include "TOLPlayerController.h"
 
 ATomeOfLightHUD::ATomeOfLightHUD()
 {
@@ -32,4 +33,22 @@ void ATomeOfLightHUD::DrawHUD()
 	//FCanvasTileItem TileItem( CrosshairDrawPosition, CrosshairTex->Resource, FLinearColor::White);
 	//TileItem.BlendMode = SE_BLEND_Translucent;
 	//Canvas->DrawItem( TileItem );
+}
+
+void ATomeOfLightHUD::BeginPlay()
+{
+	Super::BeginPlay();
+	APlayerController* PlayerController = Cast<APlayerController>(GetOwner());
+	ScoreWidget = CreateWidget<UScoreWidget>(PlayerController, ScoreWidgetClass);
+	ScoreWidget->AddToViewport();
+}
+
+void ATomeOfLightHUD::UpdateScore() const
+{
+	ATOLPlayerController* PlayerController = Cast<ATOLPlayerController>(GetOwningPlayerController());
+	
+	if(PlayerController != nullptr)
+	{
+		ScoreWidget->UpdateScoreText(PlayerController->GetScore());
+	}
 }
